@@ -17,7 +17,7 @@
     <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="aiosql" href="source/modules.html" />
+    <link rel="next" title="Install" href="install.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
@@ -33,7 +33,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="source/modules.html" title="aiosql"
+          <a href="install.html" title="Install"
              accesskey="N">next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">aiosql 1.0.0 documentation</a> &#187;</li> 
       </ul>
@@ -42,13 +42,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">aiosql - Simple SQL in Python</a></li>
-<li><a class="reference internal" href="#install">Install</a></li>
-<li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#">aiosql - Simple SQL in Python</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#quick-example">Quick Example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#api-documentation">API Documentation</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
@@ -65,8 +63,8 @@
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
   <h4>Next topic</h4>
-  <p class="topless"><a href="source/modules.html"
-                        title="next chapter">aiosql</a></p><h3>Source code</h3>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">Install</a></p><h3>Source code</h3>
 <ul>
   <li><a href="https://gitlab.com/willvaughn/aiosql">Gitlab Repository</a></li>
   <li><a href="https://gitlab.com/willvaughn/aiosql/issues">Issues</a></li>
@@ -88,22 +86,26 @@ files and load them into a python object with methods to call.</p>
 <p>The project is based on (and closely related to) the python package <a class="reference external" href="https://github.com/honza/anosql">anosql</a>, which
 is based on the clojure library <a class="reference external" href="https://github.com/krisajenkins/yesql/">Yesql</a>. It supports sync and asyncio
 drivers for SQLite and PostgreSQL out of the box, and can be extended by you to support other database drivers!</p>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#sync-with-sqlite3">Sync with <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#going-async-with-aiosqlite">Going Async with <code class="docutils literal notranslate"><span class="pre">aiosqlite</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source/modules.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source/aiosql.html">aiosql package</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install aiosql
-</pre></div>
 </div>
-<p>Or if you you use <a class="reference external" href="https://poetry.eustace.io/">poetry</a>:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>poetry add aiosql
-</pre></div>
-</div>
-</div>
-<div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="basics">
-<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
-<p>You define SQL queries in a <code class="docutils literal notranslate"><span class="pre">greetings.sql</span></code> file:</p>
+<div class="section" id="quick-example">
+<h2>Quick Example<a class="headerlink" href="#quick-example" title="Permalink to this headline">¶</a></h2>
+<p><em>greetings.sql</em></p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- name: get-all-greetings</span>
 <span class="c1">-- Get all the greetings in the database</span>
 <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">greetings</span><span class="p">;</span>
@@ -111,41 +113,21 @@ drivers for SQLite and PostgreSQL out of the box, and can be extended by you to 
 <span class="c1">-- name: $get-users-by-username</span>
 <span class="c1">-- Get all the users from the database,</span>
 <span class="c1">-- and return it as a dict</span>
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">users</span> <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="p">:</span><span class="n">username</span><span class="p">;</span>
+<span class="k">select</span> <span class="n">user_id</span><span class="p">,</span>
+       <span class="n">username</span><span class="p">,</span>
+       <span class="n">name</span>
+  <span class="k">from</span> <span class="n">users</span>
+ <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="p">:</span><span class="n">username</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>By specifying <code class="docutils literal notranslate"><span class="pre">db_driver=&quot;sqlite3&quot;</span></code> you will use the python stdlib <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> driver to execute these sql queries
-in python by the names you define in <code class="docutils literal notranslate"><span class="pre">--name:</span> <span class="pre">foobar</span></code> comments.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
-<span class="kn">import</span> <span class="nn">aiosql</span>
-
-<span class="n">queries</span> <span class="o">=</span> <span class="n">aiosql</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;greetings.sql&quot;</span><span class="p">,</span> <span class="n">db_driver</span><span class="o">=</span><span class="s2">&quot;sqlite3&quot;</span><span class="p">)</span>
-<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span>
-
-<span class="n">greetings</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-<span class="n">users</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_users_by_username</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;willvaughn&quot;</span><span class="p">)</span>
-<span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
-<span class="c1"># users = [{&quot;user_id&quot;: 1, &quot;username&quot;: &quot;willvaughn&quot;, &quot;name&quot;: &quot;Will&quot;}]</span>
-
-<span class="n">name</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-   <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {name}!&quot;</span><span class="p">)</span>
-
-<span class="c1"># Hi, Will!</span>
-<span class="c1"># Aloha, Will!</span>
-<span class="c1"># Hola, Will!</span>
-</pre></div>
-</div>
-<p>To do this in an <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> environment specify <code class="docutils literal notranslate"><span class="pre">db_driver=&quot;aiosqlite&quot;</span></code> you can use the <a class="reference external" href="https://github.com/jreese/aiosqlite">aiosqlite</a> driver.</p>
+<p><em>example.py</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
-
 <span class="kn">import</span> <span class="nn">aiosql</span>
 <span class="kn">import</span> <span class="nn">aiosqlite</span>
 
+<span class="n">queries</span> <span class="o">=</span> <span class="n">aiosql</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;greetings.sql&quot;</span><span class="p">,</span> <span class="n">db_driver</span><span class="o">=</span><span class="s2">&quot;aiosqlite&quot;</span><span class="p">)</span>
 
 <span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-   <span class="n">queries</span> <span class="o">=</span> <span class="n">aiosql</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;greetings.sql&quot;</span><span class="p">,</span> <span class="n">db_driver</span><span class="o">=</span><span class="s2">&quot;aiosqlite&quot;</span><span class="p">)</span>
-
    <span class="c1"># Parallel queries!!!</span>
    <span class="k">with</span> <span class="n">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
        <span class="n">greetings</span><span class="p">,</span> <span class="n">users</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
@@ -155,29 +137,9 @@ in python by the names you define in <code class="docutils literal notranslate">
        <span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
        <span class="c1"># users = [{&quot;user_id&quot;: 1, &quot;username&quot;: &quot;willvaughn&quot;, &quot;name&quot;: &quot;Will&quot;}]</span>
 
-   <span class="n">name</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-       <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {name}!&quot;</span><span class="p">)</span>
-
-   <span class="c1"># Hi, Will!</span>
-   <span class="c1"># Aloha, Will!</span>
-   <span class="c1"># Hola, Will!</span>
-
-
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="api-documentation">
-<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="source/modules.html">source</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/aiosql.html">aiosql package</a></li>
-</ul>
-</li>
-</ul>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -205,7 +167,7 @@ in python by the names you define in <code class="docutils literal notranslate">
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="source/modules.html" title="aiosql"
+          <a href="install.html" title="Install"
              >next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">aiosql 1.0.0 documentation</a> &#187;</li> 
       </ul>
