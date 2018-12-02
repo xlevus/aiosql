@@ -1,0 +1,21 @@
+aiosql.loaders package
+======================
+
+Submodules
+----------
+
+.. toctree::
+
+   aiosql.loaders.aiosqlite
+   aiosql.loaders.asyncpg
+   aiosql.loaders.base
+   aiosql.loaders.psycopg2
+   aiosql.loaders.sqlite3
+
+Module contents
+---------------
+
+.. automodule:: aiosql.loaders
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+aiosql.loaders.aiosqlite module
+===============================
+
+.. automodule:: aiosql.loaders.aiosqlite
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+aiosql.aiosql module
+====================
+
+.. automodule:: aiosql.aiosql
+    :members:
+    :undoc-members:
+    :show-inheritance:

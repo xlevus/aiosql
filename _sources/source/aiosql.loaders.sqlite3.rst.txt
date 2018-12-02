@@ -1,0 +1,7 @@
+aiosql.loaders.sqlite3 module
+=============================
+
+.. automodule:: aiosql.loaders.sqlite3
+    :members:
+    :undoc-members:
+    :show-inheritance:

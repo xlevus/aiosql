@@ -1,0 +1,7 @@
+aiosql.loaders.base module
+==========================
+
+.. automodule:: aiosql.loaders.base
+    :members:
+    :undoc-members:
+    :show-inheritance:

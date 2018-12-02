@@ -1,0 +1,7 @@
+aiosql.loaders.psycopg2 module
+==============================
+
+.. automodule:: aiosql.loaders.psycopg2
+    :members:
+    :undoc-members:
+    :show-inheritance:

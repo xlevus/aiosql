@@ -1,0 +1,25 @@
+aiosql package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    aiosql.loaders
+
+Submodules
+----------
+
+.. toctree::
+
+   aiosql.aiosql
+   aiosql.exceptions
+
+Module contents
+---------------
+
+.. automodule:: aiosql
+    :members:
+    :undoc-members:
+    :show-inheritance:

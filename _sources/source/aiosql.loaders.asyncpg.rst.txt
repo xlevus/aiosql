@@ -1,0 +1,7 @@
+aiosql.loaders.asyncpg module
+=============================
+
+.. automodule:: aiosql.loaders.asyncpg
+    :members:
+    :undoc-members:
+    :show-inheritance:
