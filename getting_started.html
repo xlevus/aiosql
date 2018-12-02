@@ -79,7 +79,7 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>Below is an example of a program which can pring “{greeting}, {world}!” from data held in a minimal SQLite database of
+<p>Below is an example of a program which can pring “{greeting}, {world_name}!” from data held in a minimal SQLite database of
 worlds and greetings.</p>
 <p>The SQL is in a <code class="docutils literal notranslate"><span class="pre">greetings.sql</span></code> file with <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">name:</span> <span class="pre">``</span> <span class="pre">definitions</span> <span class="pre">on</span> <span class="pre">each</span> <span class="pre">query</span> <span class="pre">to</span> <span class="pre">tell</span> <span class="pre">``aiosql</span></code> under which name
 we would like to be able to execute this code. The name <code class="docutils literal notranslate"><span class="pre">get-all-greetings</span></code> will be available to us after loading as
@@ -107,17 +107,17 @@ get the results.</p>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span>
 
 <span class="n">greetings</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-<span class="n">users</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_users_by_username</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;willvaughn&quot;</span><span class="p">)</span>
+<span class="n">worlds</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_worlds_by_name</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">world_name</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
 <span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
-<span class="c1"># users = [{&quot;user_id&quot;: 1, &quot;username&quot;: &quot;willvaughn&quot;, &quot;name&quot;: &quot;Will&quot;}]</span>
+<span class="c1"># worlds = [{&quot;world_id&quot;: 1, &quot;world_name&quot;: &quot;Earth&quot;}]</span>
 
-<span class="n">name</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-   <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {name}!&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">world</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {world[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
 
-<span class="c1"># Hi, Will!</span>
-<span class="c1"># Aloha, Will!</span>
-<span class="c1"># Hola, Will!</span>
+<span class="c1"># Hi, Earth!</span>
+<span class="c1"># Aloha, Earth!</span>
+<span class="c1"># Hola, Earth!</span>
 
 <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -134,22 +134,22 @@ both our queries for greetings and worlds in parallel!</p>
 
 
 <span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-   <span class="k">with</span> <span class="n">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-       <span class="c1"># Parallel queries!!!</span>
-       <span class="n">greetings</span><span class="p">,</span> <span class="n">users</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
-           <span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">),</span>
-           <span class="n">queries</span><span class="o">.</span><span class="n">get_users_by_username</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;willvaughn&quot;</span><span class="p">)</span>
-       <span class="p">)</span>
-       <span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
-       <span class="c1"># users = [{&quot;user_id&quot;: 1, &quot;username&quot;: &quot;willvaughn&quot;, &quot;name&quot;: &quot;Will&quot;}]</span>
+    <span class="k">with</span> <span class="n">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="c1"># Parallel queries!!!</span>
+        <span class="n">greetings</span><span class="p">,</span> <span class="n">worlds</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+            <span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">),</span>
+            <span class="n">queries</span><span class="o">.</span><span class="n">get_worlds_by_name</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">world_name</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
+        <span class="c1"># worlds = [{&quot;world_id&quot;: 1, &quot;world_name&quot;: &quot;Earth&quot;}]</span>
 
-   <span class="n">name</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-       <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {name}!&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">world</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {world[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
 
-   <span class="c1"># Hi, Will!</span>
-   <span class="c1"># Aloha, Will!</span>
-   <span class="c1"># Hola, Will!</span>
+        <span class="c1"># Hi, Earth!</span>
+        <span class="c1"># Aloha, Earth!</span>
+        <span class="c1"># Hola, Earth!</span>
 
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
