@@ -81,9 +81,9 @@
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>Below is an example of a program which can pring “{greeting}, {world_name}!” from data held in a minimal SQLite database of
 worlds and greetings.</p>
-<p>The SQL is in a <code class="docutils literal notranslate"><span class="pre">greetings.sql</span></code> file with <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">name:</span> <span class="pre">``</span> <span class="pre">definitions</span> <span class="pre">on</span> <span class="pre">each</span> <span class="pre">query</span> <span class="pre">to</span> <span class="pre">tell</span> <span class="pre">``aiosql</span></code> under which name
-we would like to be able to execute this code. The name <code class="docutils literal notranslate"><span class="pre">get-all-greetings</span></code> will be available to us after loading as
-a method <code class="docutils literal notranslate"><span class="pre">get_all_greetings(conn)</span></code>. Each method on an <code class="docutils literal notranslate"><span class="pre">aiosql.Queries</span></code> object accepts a database connection it can
+<p>The SQL is in a <code class="docutils literal notranslate"><span class="pre">greetings.sql</span></code> file with <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">name:</span></code> definitions on each query to tell <code class="docutils literal notranslate"><span class="pre">aiosql</span></code> under which name
+we would like to be able to execute this code. The name <code class="docutils literal notranslate"><span class="pre">get-all-greetings</span></code> will be available to us afterloading as
+a method <code class="docutils literal notranslate"><span class="pre">get_all_greetings(conn)</span></code>. Each method on an <code class="docutils literal notranslate"><span class="pre">aiosql.Queries</span></code> object accepts a database connec tion it can
 use in order to communicate with a database.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- name: get-all-greetings</span>
 <span class="c1">-- Get all the greetings in the database</span>
