@@ -1,7 +1,7 @@
-aiosql.loaders.aiosqlite module
+aiosql.adapters.psycopg2 module
 ===============================
 
-.. automodule:: aiosql.loaders.aiosqlite
+.. automodule:: aiosql.adapters.psycopg2
     :members:
     :undoc-members:
     :show-inheritance:

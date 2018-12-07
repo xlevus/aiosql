@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Getting Started &#8212; aiosql 1.0.0 documentation</title>
+    <title>Getting Started &#8212; aiosql 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="install.html" title="Install"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">aiosql 1.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">aiosql 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -79,17 +79,17 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>Below is an example of a program which can pring “{greeting}, {world_name}!” from data held in a minimal SQLite database of
-worlds and greetings.</p>
+<p>Below is an example of a program which can print <code class="docutils literal notranslate"><span class="pre">&quot;{greeting},</span> <span class="pre">{world_name}!&quot;</span></code> from data held in a minimal SQLite
+database containing greetings and worlds.</p>
 <p>The SQL is in a <code class="docutils literal notranslate"><span class="pre">greetings.sql</span></code> file with <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">name:</span></code> definitions on each query to tell <code class="docutils literal notranslate"><span class="pre">aiosql</span></code> under which name
-we would like to be able to execute this code. The name <code class="docutils literal notranslate"><span class="pre">get-all-greetings</span></code> will be available to us afterloading as
-a method <code class="docutils literal notranslate"><span class="pre">get_all_greetings(conn)</span></code>. Each method on an <code class="docutils literal notranslate"><span class="pre">aiosql.Queries</span></code> object accepts a database connec tion it can
-use in order to communicate with a database.</p>
+we would like to be able to execute them. For example, the query under the name <code class="docutils literal notranslate"><span class="pre">get-all-greetings</span></code> in the example
+below will be available to us after loading via <code class="docutils literal notranslate"><span class="pre">aiosql.from_path</span></code> as a method <code class="docutils literal notranslate"><span class="pre">get_all_greetings(conn)</span></code>.
+Each method on an <code class="docutils literal notranslate"><span class="pre">aiosql.Queries</span></code> object accepts a database connection to use in communicating with the database.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- name: get-all-greetings</span>
 <span class="c1">-- Get all the greetings in the database</span>
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">greetings</span><span class="p">;</span>
+<span class="k">select</span> <span class="n">greeting_id</span><span class="p">,</span> <span class="n">greeting</span> <span class="k">from</span> <span class="n">greetings</span><span class="p">;</span>
 
-<span class="c1">-- name: $get-worlds-by-name</span>
+<span class="c1">-- name: get-worlds-by-name</span>
 <span class="c1">-- Get all the world record from the database.</span>
 <span class="k">select</span> <span class="n">world_id</span><span class="p">,</span>
        <span class="n">world_name</span><span class="p">,</span>
@@ -99,22 +99,27 @@ use in order to communicate with a database.</p>
 </pre></div>
 </div>
 <p>By specifying <code class="docutils literal notranslate"><span class="pre">db_driver=&quot;sqlite3&quot;</span></code> we can use the python stdlib <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> driver to execute these sql queries and
-get the results.</p>
+get the results. We’re also using the <code class="docutils literal notranslate"><span class="pre">sqlite3.Row</span></code> type for our records to make it easy to access our data via
+their column names rather than as tuple indices.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
 <span class="kn">import</span> <span class="nn">aiosql</span>
 
 <span class="n">queries</span> <span class="o">=</span> <span class="n">aiosql</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;greetings.sql&quot;</span><span class="p">,</span> <span class="n">db_driver</span><span class="o">=</span><span class="s2">&quot;sqlite3&quot;</span><span class="p">)</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
 
 <span class="n">greetings</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
 <span class="n">worlds</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">get_worlds_by_name</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">world_name</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
-<span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
-<span class="c1"># worlds = [{&quot;world_id&quot;: 1, &quot;world_name&quot;: &quot;Earth&quot;}]</span>
+<span class="c1"># greetings = [</span>
+<span class="c1">#     &lt;Row greeting_id=1, greeting=&quot;Hi&quot;&gt;,</span>
+<span class="c1">#     &lt;Row greeting_id=2, greeting=&quot;Aloha&quot;&gt;,</span>
+<span class="c1">#     &lt;Row greeting_id=3, greeting=&quot;Hola&quot;&gt;</span>
+<span class="c1"># ]</span>
+<span class="c1"># worlds = [&lt;Row world_id=1, world_name=&quot;Earth&quot;&gt;]</span>
 
-<span class="k">for</span> <span class="n">world</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {world[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
-
+<span class="k">for</span> <span class="n">world_row</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">greeting_row</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting_row[&#39;greeting&#39;]}, {world_row[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
 <span class="c1"># Hi, Earth!</span>
 <span class="c1"># Aloha, Earth!</span>
 <span class="c1"># Hola, Earth!</span>
@@ -135,18 +140,22 @@ both our queries for greetings and worlds in parallel!</p>
 
 <span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="k">with</span> <span class="n">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">Row</span>
         <span class="c1"># Parallel queries!!!</span>
         <span class="n">greetings</span><span class="p">,</span> <span class="n">worlds</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
             <span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">),</span>
             <span class="n">queries</span><span class="o">.</span><span class="n">get_worlds_by_name</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">world_name</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
-        <span class="c1"># worlds = [{&quot;world_id&quot;: 1, &quot;world_name&quot;: &quot;Earth&quot;}]</span>
+        <span class="c1"># greetings = [</span>
+        <span class="c1">#     &lt;Row greeting_id=1, greeting=&quot;Hi&quot;&gt;,</span>
+        <span class="c1">#     &lt;Row greeting_id=2, greeting=&quot;Aloha&quot;&gt;,</span>
+        <span class="c1">#     &lt;Row greeting_id=3, greeting=&quot;Hola&quot;&gt;</span>
+        <span class="c1"># ]</span>
+        <span class="c1"># worlds = [&lt;Row world_id=1, world_name=&quot;Earth&quot;&gt;]</span>
 
-        <span class="k">for</span> <span class="n">world</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting}, {world[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
-
+        <span class="k">for</span> <span class="n">world_row</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">greeting_row</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting_row[&#39;greeting&#39;]}, {world_row[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
         <span class="c1"># Hi, Earth!</span>
         <span class="c1"># Aloha, Earth!</span>
         <span class="c1"># Hola, Earth!</span>
@@ -178,7 +187,7 @@ both our queries for greetings and worlds in parallel!</p>
         <li class="right" >
           <a href="install.html" title="Install"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">aiosql 1.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">aiosql 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

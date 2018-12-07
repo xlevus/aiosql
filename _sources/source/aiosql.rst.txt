@@ -6,15 +6,17 @@ Subpackages
 
 .. toctree::
 
-    aiosql.loaders
+    aiosql.adapters
 
 Submodules
 ----------
 
 .. toctree::
 
+   aiosql.aioctxlib
    aiosql.aiosql
    aiosql.exceptions
+   aiosql.patterns
 
 Module contents
 ---------------

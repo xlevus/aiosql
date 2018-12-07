@@ -1,0 +1,7 @@
+aiosql.patterns module
+======================
+
+.. automodule:: aiosql.patterns
+    :members:
+    :undoc-members:
+    :show-inheritance:
