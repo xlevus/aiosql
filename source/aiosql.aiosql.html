@@ -248,9 +248,8 @@ methods of this class will be named.</p>
 <span class="s2">&quot;&quot;&quot;</span>
 
 <span class="n">queries</span> <span class="o">=</span> <span class="n">aiosql</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">sql_text</span><span class="p">,</span> <span class="n">db_driver</span><span class="o">=</span><span class="s2">&quot;sqlite3&quot;</span><span class="p">)</span>
-<span class="c1"># Example usage after loading:</span>
-<span class="c1"># queries.get_all_greetings(conn)</span>
-<span class="c1"># queries.get_users_by_username(conn, username=&quot;willvaughn&quot;)</span>
+<span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+<span class="n">queries</span><span class="o">.</span><span class="n">get_users_by_username</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;willvaughn&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
