@@ -135,7 +135,7 @@ please see the related <a class="reference external" href="https://github.com/ho
 
 <span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
    <span class="c1"># Parallel queries!!!</span>
-   <span class="k">with</span> <span class="n">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+   <span class="n">async</span> <span class="k">with</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
        <span class="n">greetings</span><span class="p">,</span> <span class="n">users</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
            <span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">),</span>
            <span class="n">queries</span><span class="o">.</span><span class="n">get_users_by_username</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;willvaughn&quot;</span><span class="p">)</span>
