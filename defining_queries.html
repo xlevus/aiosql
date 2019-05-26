@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Defining SQL Queries &#8212; aiosql 2.0.2 documentation</title>
+    <title>Defining SQL Queries &#8212; aiosql 3.0.0 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Extending aiosql to additional database drivers" href="driver_adapters.html" />
-    <link rel="prev" title="Getting Started" href="getting_started.html" />
+    <link rel="prev" title="Sync vs Async" href="sync_vs_async.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
@@ -37,9 +37,9 @@
           <a href="driver_adapters.html" title="Extending aiosql to additional database drivers"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="getting_started.html" title="Getting Started"
+          <a href="sync_vs_async.html" title="Sync vs Async"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">aiosql 2.0.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">aiosql 3.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -49,6 +49,7 @@
 <li><a class="reference internal" href="#">Defining SQL Queries</a><ul>
 <li><a class="reference internal" href="#query-names-comments">Query Names &amp; Comments</a></li>
 <li><a class="reference internal" href="#query-operations">Query Operations</a><ul>
+<li><a class="reference internal" href="#select-one-row-with">Select One Row with <code class="docutils literal notranslate"><span class="pre">^</span></code></a></li>
 <li><a class="reference internal" href="#insert-update-delete-with">Insert/Update/Delete with <code class="docutils literal notranslate"><span class="pre">!</span></code></a></li>
 <li><a class="reference internal" href="#insert-returning-with">Insert Returning with <code class="docutils literal notranslate"><span class="pre">&lt;!</span></code></a></li>
 <li><a class="reference internal" href="#insert-update-delete-many-with">Insert/Update/Delete Many with <code class="docutils literal notranslate"><span class="pre">*!</span></code></a></li>
@@ -60,8 +61,8 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="getting_started.html"
-                        title="previous chapter">Getting Started</a></p>
+  <p class="topless"><a href="sync_vs_async.html"
+                        title="previous chapter">Sync vs Async</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="driver_adapters.html"
                         title="next chapter">Extending aiosql to additional database drivers</a></p>
@@ -134,6 +135,28 @@ SQL <code class="docutils literal notranslate"><span class="pre">select</span></
 need to perform other operations besides selects, like inserts, deletes, and bulk opearations. The
 operators detailed in this section let you declare in your SQL, how your code should be executed
 by the database driver.</p>
+<div class="section" id="select-one-row-with">
+<h3>Select One Row with <code class="docutils literal notranslate"><span class="pre">^</span></code><a class="headerlink" href="#select-one-row-with" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">^</span></code> operator will execute the query, and only return the first row of a result set. If there are now rows in the
+result set it returns <code class="docutils literal notranslate"><span class="pre">None</span></code>. When using a raw driver this is usually done with <code class="docutils literal notranslate"><span class="pre">cur.fetchone()</span></code> vs
+<code class="docutils literal notranslate"><span class="pre">cur.fetchall()</span></code>. This is useful when you know there should be one, and exactly one record for your query. For
+instance, if you have a unique index on the username field in your users table so that no two users should ever share
+the same username, you could use <code class="docutils literal notranslate"><span class="pre">^</span></code> to tell the driver to only select a single row, and to return it rather than a
+list of rows with length of 1.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- name: get-user-by-username^</span>
+<span class="k">select</span> <span class="n">userid</span><span class="p">,</span>
+       <span class="n">username</span>
+  <span class="k">from</span> <span class="n">users</span>
+ <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="p">:</span><span class="n">username</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The method generated is:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">get_user_by_username(conn,</span> <span class="pre">username:</span> <span class="pre">str)</span></code></li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="insert-update-delete-with">
 <h3>Insert/Update/Delete with <code class="docutils literal notranslate"><span class="pre">!</span></code><a class="headerlink" href="#insert-update-delete-with" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">!</span></code> operator will execute SQL without returning any results. It is meant for use with <code class="docutils literal notranslate"><span class="pre">insert</span></code>,
@@ -272,9 +295,9 @@ setup your database.</p>
           <a href="driver_adapters.html" title="Extending aiosql to additional database drivers"
              >next</a> |</li>
         <li class="right" >
-          <a href="getting_started.html" title="Getting Started"
+          <a href="sync_vs_async.html" title="Sync vs Async"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">aiosql 2.0.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">aiosql 3.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

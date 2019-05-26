@@ -36,6 +36,6 @@ $(window).resize(function(){
         $("li.nav-item-0 a").text("Top");
     }
     else {
-        $("li.nav-item-0 a").text("aiosql 2.0.2 documentation");
+        $("li.nav-item-0 a").text("aiosql 3.0.0 documentation");
     }
 });

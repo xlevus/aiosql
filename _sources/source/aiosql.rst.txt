@@ -17,6 +17,9 @@ Submodules
    aiosql.aiosql
    aiosql.exceptions
    aiosql.patterns
+   aiosql.queries
+   aiosql.query_loader
+   aiosql.types
 
 Module contents
 ---------------

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Upgrading from 1.x to 2.x &#8212; aiosql 2.0.2 documentation</title>
+    <title>Upgrading from 2.x to 3.x &#8212; aiosql 3.0.0 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -17,6 +17,8 @@
     <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="aiosql" href="source/modules.html" />
+    <link rel="prev" title="Extending aiosql to additional database drivers" href="driver_adapters.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
@@ -31,11 +33,29 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">aiosql 2.0.2 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="source/modules.html" title="aiosql"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="driver_adapters.html" title="Extending aiosql to additional database drivers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">aiosql 3.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Upgrading from 2.x to 3.x</a></li>
+<li><a class="reference internal" href="#upgrading-from-1-x-to-2-x">Upgrading from 1.x to 2.x</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="driver_adapters.html"
+                        title="previous chapter">Extending aiosql to additional database drivers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="source/modules.html"
+                        title="next chapter">aiosql</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -63,7 +83,16 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="upgrading-from-1-x-to-2-x">
+  <div class="section" id="upgrading-from-2-x-to-3-x">
+<h1>Upgrading from 2.x to 3.x<a class="headerlink" href="#upgrading-from-2-x-to-3-x" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">register_driver_adapter</span></code> function is gone. Instead the <code class="docutils literal notranslate"><span class="pre">driver_adapter</span></code> argument of <code class="docutils literal notranslate"><span class="pre">aiosql.from_path</span></code> and
+<code class="docutils literal notranslate"><span class="pre">aiosql.from_str</span></code> can be used to pass a constructor or factory function which can build an instance of your driver
+adapter class.</li>
+<li>Non-breaking addition of the <code class="docutils literal notranslate"><span class="pre">^</span></code> “select_one” operator. Let’s you select a single row from the database.</li>
+</ul>
+</div>
+<div class="section" id="upgrading-from-1-x-to-2-x">
 <h1>Upgrading from 1.x to 2.x<a class="headerlink" href="#upgrading-from-1-x-to-2-x" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li>No more <code class="docutils literal notranslate"><span class="pre">$get-all-blogs</span></code> style query names to indicate that the response should be a list of dictionary records with</li>
@@ -100,7 +129,13 @@ or our own <code class="docutils literal notranslate"><span class="pre">aiosql.a
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">aiosql 2.0.2 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="source/modules.html" title="aiosql"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="driver_adapters.html" title="Extending aiosql to additional database drivers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">aiosql 3.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
